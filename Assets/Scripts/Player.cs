@@ -17,6 +17,7 @@ public class Player : MonoBehaviour
     private float _canFire = -1f;
     [SerializeField]
     private int _lives = 3;
+    private int _shieldLives = 3;
     [SerializeField]
     private int _score;
     private SpawnManager _spawnManager;
@@ -33,6 +34,7 @@ public class Player : MonoBehaviour
     [SerializeField]
     private AudioClip _explosionAudio;
     private AudioSource _audioSource;
+    private SpriteRenderer _spriteRender;
 
 
 
@@ -41,6 +43,7 @@ public class Player : MonoBehaviour
     {
         transform.position = new Vector3(0, 0, 0);
         _spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
+        _spriteRender = gameObject.transform.Find("Shield").gameObject.GetComponent<SpriteRenderer>();
 
         if (_spawnManager == null)
         {
@@ -128,9 +131,23 @@ public class Player : MonoBehaviour
     {
         if( _isShieldActive == true)
         {
-            _isShieldActive = false;
-            _shieldVisualiser.SetActive(false);
-            return;
+            _shieldLives--;
+            if (_shieldLives == 2)
+            {
+                _spriteRender.color = new Color(1f, 1f, 1f, 0.6f);
+                return;
+            }
+            else if (_shieldLives == 1)
+            {
+                _spriteRender.color = new Color(1f, 1f, 1f, 0.2f);
+                return;
+            }
+            else
+            {
+                _isShieldActive = false;
+                transform.GetChild(0).gameObject.SetActive(false);
+                return;
+            }
         }
 
         _lives--;
