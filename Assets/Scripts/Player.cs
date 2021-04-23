@@ -105,16 +105,16 @@ public class Player : MonoBehaviour
 
         transform.Translate(direction * _speed * Time.deltaTime);
         
-        transform.position = new Vector3(transform.position.x, Mathf.Clamp(transform.position.y, -4.2f, 0), 0);
+        transform.position = new Vector3(transform.position.x, Mathf.Clamp(transform.position.y, -3.5f, 0), 0);
 
 
-        if (transform.position.x >= 3f)
+        if (transform.position.x >= 11f)
         {
-            transform.position = new Vector3(-3f, transform.position.y, 0);
+            transform.position = new Vector3(-11f, transform.position.y, 0);
         }
-        else if (transform.position.x <= -3f)
+        else if (transform.position.x <= -11f)
         {
-            transform.position = new Vector3(3f, transform.position.y, 0);
+            transform.position = new Vector3(11f, transform.position.y, 0);
         }
     }
 
