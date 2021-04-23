@@ -224,5 +224,15 @@ public class Player : MonoBehaviour
         _uiManager.UpdateScore(_score);
     }
 
+    public void CollectAmmo()
+    {
+        _laserAmmo += 15;
+        if (_laserAmmo > 15)
+        {
+            _laserAmmo = _laserAmmoMax;
+        }
+        _uiManager.UpdateAmmo(_laserAmmo);
+    }
+
 
 }
