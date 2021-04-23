@@ -9,6 +9,17 @@ public class GameManager : MonoBehaviour
     private bool _isGameOver;
     [SerializeField]
     private bool _paused = false;
+    private UIManager _uIManager;
+
+    private void Start()
+    {
+        _uIManager = GameObject.Find("Canvas").GetComponent<UIManager>();
+
+        if (_uIManager == null)
+        {
+            Debug.LogError("UIManager is NULL");
+        }
+    }
 
     private void Update()
     {
@@ -42,12 +53,15 @@ public class GameManager : MonoBehaviour
     {
         Time.timeScale = 0;
         _paused = true;
+        _uIManager.GamePausedSequence();
+        
     }
 
     private void Unpause()
     {
         Time.timeScale = 1;
         _paused = false;
+        _uIManager.GameUnPausedSequence();
     }
 
 
@@ -55,4 +69,6 @@ public class GameManager : MonoBehaviour
     {
         _isGameOver = true;
     }
+
+
 }
