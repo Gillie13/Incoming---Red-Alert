@@ -39,6 +39,7 @@ public class Player : MonoBehaviour
     private int _laserAmmoMax = 15;
     private CameraShake _shake;
 
+    private ThrusterBar _thrusters;
 
 
     // Start is called before the first frame update
@@ -48,6 +49,7 @@ public class Player : MonoBehaviour
         _spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
         _spriteRender = gameObject.transform.Find("Shield").gameObject.GetComponent<SpriteRenderer>();
         _shake = GameObject.Find("Main Camera").GetComponent<CameraShake>();
+        _thrusters = GameObject.Find("ThrusterBar").GetComponent<ThrusterBar>();
 
         if (_spawnManager == null)
         {
@@ -73,13 +75,21 @@ public class Player : MonoBehaviour
             Debug.LogError("CameraShare is NULL");
         }
 
+        if (_thrusters == null)
+        {
+            Debug.LogError("Thrusters is Null");
+        }
 
     }
+
     // Update is called once per frame
     void Update()
     {
 
         CalculateMovement();
+
+        float _thrusterFuel = _thrusters.thrusterFuel;
+
         if (Input.GetKeyDown(KeyCode.Space) && Time.time > _canFire)
         {
             FireLaser();
@@ -87,11 +97,15 @@ public class Player : MonoBehaviour
 
         if (Input.GetKey(KeyCode.LeftShift))
         {
-            _speed = 7.0f;
-        }
-        else
-        {
-            _speed = 3.5f;
+            if(_thrusterFuel >= 2)
+            {
+                _speed = 7.0f;
+                _thrusters.UseThruster(1);
+            } else
+            {
+                _speed = 3.5f;
+            }
+            
         }
 
     }

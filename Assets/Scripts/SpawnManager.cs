@@ -37,7 +37,7 @@ public class SpawnManager : MonoBehaviour
 
         while (_stopSpawning == false)
         {
-            GameObject enemy = Instantiate(_enemyPrefab, new Vector3(Random.Range(-10.0f, 10.0f), 8, 0), Quaternion.identity);
+            GameObject enemy = Instantiate(_enemyPrefab, new Vector3(Random.Range(-9.5f, 9.5f), 8, 0), Quaternion.identity);
             enemy.transform.parent = _enemyContainer.transform;
             yield return new WaitForSeconds(_waitForSeconds);
         }
@@ -50,7 +50,7 @@ public class SpawnManager : MonoBehaviour
         while (_stopSpawning == false)
         { 
             int randomPowerUp = Random.Range(0, 5);
-            Instantiate(_powerUps[randomPowerUp], new Vector3(Random.Range(-10.0f, 10.0f), 8, 0), Quaternion.identity);
+            Instantiate(_powerUps[randomPowerUp], new Vector3(Random.Range(-9.5f, 9.5f), 8, 0), Quaternion.identity);
             yield return new WaitForSeconds(Random.Range(3, 10));
         }
     }

@@ -25,6 +25,8 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private Sprite[] _liveSprites;
     private GameManager _gameManager;
+
+
     
 
 
@@ -61,7 +63,7 @@ public class UIManager : MonoBehaviour
     public void UpdateLives(int currentLives)
     {
         _livesImage.sprite = _liveSprites[currentLives];
-        if(currentLives == 0)
+        if(currentLives <= 0)
         {
             GameOverSequence();
         }
@@ -101,4 +103,7 @@ public class UIManager : MonoBehaviour
         }
         
     }
+
+
+
 }
