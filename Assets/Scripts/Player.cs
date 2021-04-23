@@ -37,6 +37,7 @@ public class Player : MonoBehaviour
     private SpriteRenderer _spriteRender;
     private int _laserAmmo = 15;
     private int _laserAmmoMax = 15;
+    private CameraShake _shake;
 
 
 
@@ -46,6 +47,7 @@ public class Player : MonoBehaviour
         transform.position = new Vector3(0, 0, 0);
         _spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
         _spriteRender = gameObject.transform.Find("Shield").gameObject.GetComponent<SpriteRenderer>();
+        _shake = GameObject.Find("Main Camera").GetComponent<CameraShake>();
 
         if (_spawnManager == null)
         {
@@ -64,7 +66,12 @@ public class Player : MonoBehaviour
         if (_audioSource == null)
         {
             Debug.LogError("AudioSource on the Player is NULL");
-        } 
+        }
+
+        if (_shake == null)
+        {
+            Debug.LogError("CameraShare is NULL");
+        }
 
 
     }
@@ -154,6 +161,7 @@ public class Player : MonoBehaviour
             }
         }
 
+        _shake.StartShake();
         _lives--;
         _uiManager.UpdateLives(_lives);
 
