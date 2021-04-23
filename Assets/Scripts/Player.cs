@@ -35,6 +35,7 @@ public class Player : MonoBehaviour
     private AudioSource _audioSource;
 
 
+
     // Start is called before the first frame update
     void Start()
     {
@@ -72,6 +73,15 @@ public class Player : MonoBehaviour
             FireLaser();
         }
 
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            _speed = 7.0f;
+        }
+        else
+        {
+            _speed = 3.5f;
+        }
+
     }
 
     void CalculateMovement()
@@ -79,6 +89,7 @@ public class Player : MonoBehaviour
         float horizontalInput = Input.GetAxis("Horizontal");
         float verticalInput = Input.GetAxis("Vertical");
         Vector3 direction = new Vector3(horizontalInput, verticalInput, 0);
+
 
         transform.Translate(direction * _speed * Time.deltaTime);
         
