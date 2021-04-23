@@ -234,5 +234,21 @@ public class Player : MonoBehaviour
         _uiManager.UpdateAmmo(_laserAmmo);
     }
 
+    public void RestoreLife()
+    {
+        if (_lives == 2)
+        {
+            _lives++;
+            _damageLeft.SetActive(false);
+        }
+        else if(_lives == 1)
+        {
+            _lives++;
+            _damageRight.SetActive(false);
+        }
+
+        _uiManager.UpdateLives(_lives);
+    }
+
 
 }

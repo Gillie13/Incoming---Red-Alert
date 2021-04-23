@@ -47,6 +47,9 @@ public class PowerUp : MonoBehaviour
                 case 3:
                     player.CollectAmmo();
                     break;
+                case 4:
+                    player.RestoreLife();
+                    break;
                 default:
                     Debug.Log("No Power Up");
                     break;
