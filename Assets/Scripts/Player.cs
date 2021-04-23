@@ -35,6 +35,8 @@ public class Player : MonoBehaviour
     private AudioClip _explosionAudio;
     private AudioSource _audioSource;
     private SpriteRenderer _spriteRender;
+    private int _laserAmmo = 15;
+    private int _laserAmmoMax = 15;
 
 
 
@@ -116,14 +118,16 @@ public class Player : MonoBehaviour
         if (_isTripleShotActive == true)
         {
             Instantiate(_tripleShotPrefab, transform.position, Quaternion.identity);
+            _audioSource.PlayOneShot(_laserAudio);
         }
-        else
+        else if (_laserAmmo >= 1)
         {
+            _laserAmmo--;
+            _uiManager.UpdateAmmo(_laserAmmo);
             Instantiate(_laserPrefab, transform.position + new Vector3(0, 0.58f, 0), Quaternion.identity);
+            _audioSource.PlayOneShot(_laserAudio);
         }
 
-        _audioSource.clip = _laserAudio;
-        _audioSource.Play();
 
     }
 
