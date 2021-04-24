@@ -6,26 +6,32 @@ public class Player : MonoBehaviour
 {
 
     [SerializeField]
-    private float _speed = 3.5f;
-    private float _speedMultiplier = 2f;
+    private float _speed = 5.0f;
     [SerializeField]
     private GameObject _laserPrefab;
     [SerializeField]
     private GameObject _tripleShotPrefab;
     [SerializeField]
-    private float _fireRate = 0.2f;
+    private GameObject _shieldVisualiser;
+    [SerializeField]
+    private GameObject _missilePrefab;
+    [SerializeField]
+    private GameObject _explosionPrefab;
+    [SerializeField]
+    private float _fireRate = 0.5f;
     private float _canFire = -1f;
     [SerializeField]
     private int _lives = 3;
     private int _shieldLives = 3;
-    [SerializeField]
-    private int _score;
     private SpawnManager _spawnManager;
     private bool _isTripleShotActive = false;
+    
     private bool _isSpeedUpActive = false;
+    private bool _isMissileActive = false;
+
     private bool _isShieldActive = false;
-    [SerializeField]
-    private GameObject _shieldVisualiser;
+    private float _speedBoost = 1.0f;
+
     private UIManager _uiManager;
     [SerializeField]
     private GameObject _damageLeft, _damageRight;
@@ -38,8 +44,11 @@ public class Player : MonoBehaviour
     private int _laserAmmo = 15;
     private int _laserAmmoMax = 15;
     private CameraShake _shake;
+    private float _speedMultiplier = 2f;
 
     private ThrusterBar _thrusters;
+    [SerializeField]
+    private int _score;
 
 
     // Start is called before the first frame update
@@ -47,6 +56,8 @@ public class Player : MonoBehaviour
     {
         transform.position = new Vector3(0, 0, 0);
         _spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
+        _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
+        _audioSource = GetComponent<AudioSource>();
         _spriteRender = gameObject.transform.Find("Shield").gameObject.GetComponent<SpriteRenderer>();
         _shake = GameObject.Find("Main Camera").GetComponent<CameraShake>();
         _thrusters = GameObject.Find("ThrusterBar").GetComponent<ThrusterBar>();
@@ -56,14 +67,11 @@ public class Player : MonoBehaviour
             Debug.LogError("SpawnManager is NULL!");
         }
 
-        _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
 
         if (_uiManager == null)
         {
             Debug.LogError("UIManager is NULL!");
         }
-
-        _audioSource = GetComponent<AudioSource>();
 
         if (_audioSource == null)
         {
@@ -99,11 +107,11 @@ public class Player : MonoBehaviour
         {
             if(_thrusterFuel >= 2)
             {
-                _speed = 7.0f;
+                _speedBoost = 2.0f;
                 _thrusters.UseThruster(1);
             } else
             {
-                _speed = 3.5f;
+                _speedBoost = 1.0f;
             }
             
         }
@@ -117,7 +125,7 @@ public class Player : MonoBehaviour
         Vector3 direction = new Vector3(horizontalInput, verticalInput, 0);
 
 
-        transform.Translate(direction * _speed * Time.deltaTime);
+        transform.Translate(direction * (_speed * _speedBoost) * Time.deltaTime);
         
         transform.position = new Vector3(transform.position.x, Mathf.Clamp(transform.position.y, -3.5f, 0), 0);
 
@@ -134,14 +142,27 @@ public class Player : MonoBehaviour
 
     void FireLaser()
     {
+        if(_isMissileActive == true)
+        {
+            _fireRate = 1.5f;
+        }
+        else
+        {
+            _fireRate = 0.2f;
+        }
+
         _canFire = Time.time + _fireRate;
 
-        if (_isTripleShotActive == true)
+        if (_isTripleShotActive == true && _isMissileActive == false)
         {
             Instantiate(_tripleShotPrefab, transform.position, Quaternion.identity);
             _audioSource.PlayOneShot(_laserAudio);
         }
-        else if (_laserAmmo >= 1)
+        else if (_isMissileActive == true && _isTripleShotActive == false && GameObject.FindGameObjectWithTag("Enemy") != null)
+        {
+            Instantiate(_missilePrefab, transform.position, Quaternion.identity);
+        }
+        else if (_laserAmmo >= 1 && _isMissileActive == false)
         {
             _laserAmmo--;
             _uiManager.UpdateAmmo(_laserAmmo);
@@ -196,9 +217,8 @@ public class Player : MonoBehaviour
         if (_lives < 1)
         {
             _spawnManager.OnPlayerDeath();
-            Destroy(this.gameObject,1f);
-            _audioSource.clip = _explosionAudio;
-            _audioSource.Play();
+            Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
+            Destroy(this.gameObject,0.1f);
 
         }
     }
@@ -216,6 +236,21 @@ public class Player : MonoBehaviour
             yield return new WaitForSeconds(5);
             _isTripleShotActive = false;
 
+        }
+    }
+
+    public void MissileActive()
+    {
+        _isMissileActive = true;
+        StartCoroutine(MissileActiveRoutine());
+    }
+
+    IEnumerator MissileActiveRoutine()
+    {
+        while(_isMissileActive == true)
+        {
+            yield return new WaitForSeconds(5f);
+            _isMissileActive = false;
         }
     }
 

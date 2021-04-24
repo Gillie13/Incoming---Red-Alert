@@ -17,7 +17,6 @@ public class Enemy : MonoBehaviour
     private float _fireRate = 3.0f;
     private float _canFire = -1;
 
-
     private void Start()
     {
         _player = GameObject.Find("Player").GetComponent<Player>();
@@ -109,7 +108,22 @@ public class Enemy : MonoBehaviour
             Destroy(GetComponent<Collider2D>());
             Destroy(this.gameObject, 2.3f);
         }
+
+        if (other.tag == "Missile")
+        {
+            Destroy(other.gameObject);
+            if(_player != null)
+            {
+                _player.AddScore(10);
+            }
+            _anim.SetTrigger("OnEnemyDeath");
+            _speed = 2f;
+            _audioSource.Play();
+            Destroy(GetComponent<Collider2D>());
+            Destroy(this.gameObject, 2.3f);
+        }
     
     }
+
 
 }
