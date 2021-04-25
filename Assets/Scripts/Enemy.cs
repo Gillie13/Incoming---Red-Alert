@@ -5,8 +5,8 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
 
-    [SerializeField]
-    private float _speed = 4f;
+    //[SerializeField]
+    //private float _speed = 4f;
     private Player _player;
     private Animator _anim;
     [SerializeField]
@@ -17,8 +17,21 @@ public class Enemy : MonoBehaviour
     private float _fireRate = 3.0f;
     private float _canFire = -1;
 
+    //Randomised Movements Variables
+    private float _latestChangeDirectionTime;
+    private float _directionChangeTime = 2f;
+    private float _enemyVelocity = 3f;
+    private Vector2 _movementDirection;
+    private Vector2 _movementPerSecond;
+
+    public bool _enemyIsDestroyed = false;
+
     private void Start()
     {
+        //Randomised Movement
+        _latestChangeDirectionTime = 0f;
+        CalculateNewMovementVector();
+
         _player = GameObject.Find("Player").GetComponent<Player>();
 
         if(_player == null)
@@ -47,10 +60,16 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //Calculate the frequency of the direction Change
+        if (Time.time - _latestChangeDirectionTime > _directionChangeTime && _enemyIsDestroyed == false)
+        {
+            _latestChangeDirectionTime = Time.time;
+            CalculateNewMovementVector();
+        }
 
-        CalculateMovement();
+        transform.position = new Vector2(transform.position.x + (_movementPerSecond.x * Time.deltaTime), transform.position.y + (_movementPerSecond.y * Time.deltaTime));
 
-        if(Time.time > _canFire)
+        if(Time.time > _canFire && _enemyIsDestroyed == false)
         {
             _fireRate = Random.Range(3.0f, 7.0f);
             _canFire = Time.time + _fireRate;
@@ -67,14 +86,15 @@ public class Enemy : MonoBehaviour
 
     }
 
-    private void CalculateMovement()
+    void CalculateNewMovementVector()
     {
-        transform.Translate(Vector3.down * _speed * Time.deltaTime);
+        _movementDirection = new Vector2(Random.Range(-0.2f, 0.2f), Random.Range(-0.2f, 0f)).normalized;
+        _movementPerSecond = _movementDirection * _enemyVelocity;
 
-        if (transform.position.y <= -6f)
+        if (transform.position.y <= -5f || transform.position.y >= 8f || transform.position.x <= -10f || transform.position.x >= 10f)
         {
-            float randomX = Random.Range(-9.5f, 9.5f);
-            transform.position = new Vector3(randomX, 8, 0);
+            float randomX = Random.Range(-9f, 9f);
+            transform.position = new Vector3(randomX, 7, 0);
         }
     }
 
@@ -89,8 +109,9 @@ public class Enemy : MonoBehaviour
                 player.Damage();
             }
             _anim.SetTrigger("OnEnemyDeath");
-            _speed = 2f;
+            _enemyVelocity = 2f;
             _audioSource.Play();
+            _enemyIsDestroyed = true;
             Destroy(this.gameObject, 2.3f);
         }
 
@@ -103,8 +124,9 @@ public class Enemy : MonoBehaviour
                 _player.AddScore(10);
             }
             _anim.SetTrigger("OnEnemyDeath");
-            _speed = 2f;
+            _enemyVelocity= 2f;
             _audioSource.Play();
+            _enemyIsDestroyed = true;
             Destroy(GetComponent<Collider2D>());
             Destroy(this.gameObject, 2.3f);
         }
@@ -117,8 +139,9 @@ public class Enemy : MonoBehaviour
                 _player.AddScore(10);
             }
             _anim.SetTrigger("OnEnemyDeath");
-            _speed = 2f;
+            _enemyVelocity = 2f;
             _audioSource.Play();
+            _enemyIsDestroyed = true;
             Destroy(GetComponent<Collider2D>());
             Destroy(this.gameObject, 2.3f);
         }

@@ -5,38 +5,43 @@ using UnityEngine;
 public class Missile : MonoBehaviour
 {
     private Transform _target;
-    private GameObject _closet = null;
+    private GameObject _closest = null;
     private Rigidbody2D _rigidBody;
     private float _angleChangingSpeed = 200f;
     private float _movementSpeed = 6.0f;
 
 
-    // Start is called before the first frame update
-    void Start()
+
+
+    private void Start()
     {
-        FindClosetEnemy();
-        _target = _closet.transform;
+        FindClosestEnemy();
+        _target = _closest.transform;
         _rigidBody = GetComponent<Rigidbody2D>();
 
     }
 
+
     void FixedUpdate()
     {
-        if(_target != null)
+        if (_target != null)
         {
             Vector2 direction = (Vector2)_target.position - _rigidBody.position;
             direction.Normalize();
             float rotateAmount = Vector3.Cross(direction, transform.up).z;
-            _rigidBody.angularVelocity = _angleChangingSpeed * rotateAmount;
+            _rigidBody.angularVelocity = -_angleChangingSpeed * rotateAmount;
             _rigidBody.velocity = transform.up * _movementSpeed;
-            Destroy(this.gameObject, 4f);
-        } else
+            Destroy(this.gameObject, 3f);
+
+        }
+        else
         {
             Destroy(this.gameObject);
         }
+
     }
 
-    public GameObject FindClosetEnemy()
+    public GameObject FindClosestEnemy()
     {
         GameObject[] gos;
         gos = GameObject.FindGameObjectsWithTag("Enemy");
@@ -48,10 +53,11 @@ public class Missile : MonoBehaviour
             float curDistance = diff.sqrMagnitude;
             if (curDistance < distance)
             {
-                _closet = go;
+                _closest = go;
                 distance = curDistance;
             }
         }
-        return _closet;
+        return _closest;
     }
+
 }
