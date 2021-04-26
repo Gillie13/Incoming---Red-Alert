@@ -5,7 +5,7 @@ using UnityEngine;
 public class Asteroid : MonoBehaviour
 {
 
-    private float _rotateSpeed = 15f;
+    /*private float _rotateSpeed = 15f;
     [SerializeField]
     private GameObject _explosionPrefab;
 
@@ -37,5 +37,5 @@ public class Asteroid : MonoBehaviour
             Destroy(this.gameObject, 0.25f);
             _spawnManager.StartSpawning();
         }
-    }
+    }*/
 }

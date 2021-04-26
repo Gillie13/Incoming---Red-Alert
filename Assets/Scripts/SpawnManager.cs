@@ -1,58 +1,152 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+
+[System.Serializable]
+public class Wave
+{
+    public int enemyCount;
+    public float enemySpawnTime;
+    public int lifePowerUpCount;
+    public float lifePowerUpSpawnTime;
+    public int missilePowerUpCount;
+    public float missilePowerUpSpawnTime;
+    public GameObject[] enemies;
+    public GameObject[] powerUps;
+}
 
 public class SpawnManager : MonoBehaviour
 {
-
     [SerializeField]
-    private GameObject _enemyPrefab;
+    private int _waveNumber;
+    [SerializeField]
+    private int _enemyAlive;
     [SerializeField]
     private GameObject _enemyContainer;
     [SerializeField]
-    private GameObject[] _powerUps;
-
-    [SerializeField]
-    private float _waitForSeconds = 5.0f;
     private bool _stopSpawning = false;
-
+    [SerializeField]
+    private UIManager _uiManager;
+    public GameObject lifepowerUp;
+    public GameObject missilePowerUP;
+    [SerializeField]
+    public Wave[] waves;
 
 
     // Start is called before the first frame update
     void Start()
     {
+        _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
 
-    }
-
-    public void StartSpawning()
-    {
-        StartCoroutine(SpawnEnemyRoutine());
+        if (_uiManager == null)
+        {
+            Debug.LogError("UIManager is Null!");
+        }
+        WaveSpawner();
         StartCoroutine(SpawnPowerUpRoutine());
     }
 
+    private void WaveSpawner()
+    {
+        if(_stopSpawning == false)
+        {
+            _waveNumber++;
+            StartCoroutine(SpawnEnemyRoutine());
+            StartCoroutine(SpawnLifePowerUpRoutine());
+            StartCoroutine(SpawnMissilePowerUpRoutine());
+        }
+    }
 
     IEnumerator SpawnEnemyRoutine()
     {
-        yield return new WaitForSeconds(3f);
-
-        while (_stopSpawning == false)
+        if (_waveNumber <= waves.Length)
         {
-            GameObject enemy = Instantiate(_enemyPrefab, new Vector3(Random.Range(-9.5f, 9.5f), 8, 0), Quaternion.identity);
-            enemy.transform.parent = _enemyContainer.transform;
-            yield return new WaitForSeconds(_waitForSeconds);
+            _uiManager.WaveText(_waveNumber);
+            _uiManager.displayWaveNumber = true;
+            yield return new WaitForSeconds(2f);
+            _uiManager.displayWaveNumber = false;
+            yield return new WaitForSeconds(1f);
+            for (int i = 0; i < waves[_waveNumber - 1].enemyCount; i++)
+            {
+                if (_stopSpawning == false)
+                {
+                    int randomEnemy = Random.Range(0, waves[_waveNumber - 1].enemies.Length);
+                    Vector3 posToSpawn = new Vector3(Random.Range(-8f, 8f), 7, 0);
+                    GameObject newEnemy = Instantiate(waves[_waveNumber - 1].enemies[randomEnemy], posToSpawn, Quaternion.identity);
+                    newEnemy.transform.parent = _enemyContainer.transform;
+                    _enemyAlive++;
+                    yield return new WaitForSeconds(waves[_waveNumber - 1].enemySpawnTime);
+                }
+                else if (_stopSpawning == false)
+                {
+                    GameObject newEnemy = Instantiate(waves[_waveNumber - 1].enemies[0]);
+                    newEnemy.transform.parent = _enemyContainer.transform;
+                    _enemyAlive++;
+                    yield return new WaitForSeconds(waves[_waveNumber - 1].enemySpawnTime);
+                }
+
+            }
+            while (_enemyAlive != 0)
+            {
+                yield return new WaitForSeconds(1f);
+            }
+            WaveSpawner();
         }
-     }
+        else
+        {
+            _uiManager.GameWonSequence();
+            _stopSpawning = true;
+        }
+
+    }
+
 
     IEnumerator SpawnPowerUpRoutine()
     {
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(10.0f);
 
         while (_stopSpawning == false)
-        { 
-            int randomPowerUp = Random.Range(0, 7);
-            Instantiate(_powerUps[randomPowerUp], new Vector3(Random.Range(-9.5f, 9.5f), 8, 0), Quaternion.identity);
-            yield return new WaitForSeconds(Random.Range(3, 10));
+        {
+            Vector3 posToSpawn = new Vector3(Random.Range(-8f, 8f), 7, 0);
+            int randomPowerUp = Random.Range(0, waves[_waveNumber - 1].powerUps.Length);
+            Instantiate(waves[_waveNumber - 1].powerUps[randomPowerUp], posToSpawn, Quaternion.identity);
+            yield return new WaitForSeconds(Random.Range(3.0f, 7.0f));
         }
+    }
+
+    IEnumerator SpawnLifePowerUpRoutine()
+    {
+        for (int i = 0; i < waves[_waveNumber - 1].lifePowerUpCount; i++)
+        {
+            if(_stopSpawning == false)
+            {
+                yield return new WaitForSeconds(waves[_waveNumber - 1].lifePowerUpSpawnTime);
+                Vector3 posToSpawn = new Vector3(Random.Range(-8f, 8f), 7, 0);
+                Instantiate(lifepowerUp, posToSpawn, Quaternion.identity);
+                yield return new WaitForSeconds(waves[_waveNumber - 1].lifePowerUpSpawnTime);
+            }
+        }
+    }
+
+
+    IEnumerator SpawnMissilePowerUpRoutine()
+    {
+        for (int i = 0; i < waves[_waveNumber - 1].missilePowerUpCount; i++)
+        {
+            if (_stopSpawning == false)
+            {
+                yield return new WaitForSeconds(waves[_waveNumber - 1].missilePowerUpSpawnTime);
+                Vector3 posToSpawn = new Vector3(Random.Range(-8f, 8f), 7, 0);
+                Instantiate(missilePowerUP, posToSpawn, Quaternion.identity);
+                yield return new WaitForSeconds(waves[_waveNumber - 1].missilePowerUpSpawnTime);
+            }
+        }
+    }
+
+    public void OnEnemyDeath()
+    {
+        _enemyAlive--;
     }
 
     public void OnPlayerDeath()
