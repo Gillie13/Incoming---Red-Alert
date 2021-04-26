@@ -8,10 +8,15 @@ public class Wave
 {
     public int enemyCount;
     public float enemySpawnTime;
+
+    //Control the Life Power Ups amount and spawn time per wave
     public int lifePowerUpCount;
     public float lifePowerUpSpawnTime;
+
+    //Control the Guided Missile Power Ups amount and spawn time per wave
     public int missilePowerUpCount;
     public float missilePowerUpSpawnTime;
+
     public GameObject[] enemies;
     public GameObject[] powerUps;
 }
