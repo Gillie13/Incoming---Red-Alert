@@ -12,13 +12,40 @@ public class PowerUp : MonoBehaviour
     [SerializeField]
     private AudioClip _clip;
 
+    //Player Pickup of Powerup variables
+    private Transform _player;
+    private Rigidbody2D _rigidbody;
+    private float _movementSpeed = 6.0f;
+    private Vector2 _moveDirection;
+    private bool _cKeyPressed = false;
+
+    private void Start()
+    {
+        _player = GameObject.FindGameObjectWithTag("Player").transform;
+        _rigidbody = GetComponent<Rigidbody2D>();
+
+        if (_player == null)
+        {
+            Debug.LogError("Player is Null!");
+        }
+    }
 
 
     // Update is called once per frame
     void Update()
     {
-        transform.Translate(Vector3.down * _speed * Time.deltaTime);
+        if (_cKeyPressed == false)
+        {
+            transform.Translate(Vector3.down * _speed * Time.deltaTime);
+        } 
 
+        if (Input.GetKeyDown(KeyCode.C) && _cKeyPressed == false)
+        {
+            _cKeyPressed = true;
+            transform.Translate(Vector3.zero);
+            _moveDirection = (_player.transform.position - transform.position).normalized * _movementSpeed;
+            _rigidbody.velocity = new Vector2(_moveDirection.x, _moveDirection.y);
+        }
         if(transform.position.y <= -6.0f)
         {
             Destroy(this.gameObject);
