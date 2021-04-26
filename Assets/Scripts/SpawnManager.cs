@@ -28,8 +28,8 @@ public class SpawnManager : MonoBehaviour
     private bool _stopSpawning = false;
     [SerializeField]
     private UIManager _uiManager;
-    public GameObject lifepowerUp;
-    public GameObject missilePowerUP;
+    public GameObject lifePowerUp;
+    public GameObject missilePowerUp;
     [SerializeField]
     public Wave[] waves;
 
@@ -119,16 +119,15 @@ public class SpawnManager : MonoBehaviour
     {
         for (int i = 0; i < waves[_waveNumber - 1].lifePowerUpCount; i++)
         {
-            if(_stopSpawning == false)
+            if (_stopSpawning == false)
             {
                 yield return new WaitForSeconds(waves[_waveNumber - 1].lifePowerUpSpawnTime);
                 Vector3 posToSpawn = new Vector3(Random.Range(-8f, 8f), 7, 0);
-                Instantiate(lifepowerUp, posToSpawn, Quaternion.identity);
+                Instantiate(lifePowerUp, posToSpawn, Quaternion.identity);
                 yield return new WaitForSeconds(waves[_waveNumber - 1].lifePowerUpSpawnTime);
             }
         }
     }
-
 
     IEnumerator SpawnMissilePowerUpRoutine()
     {
@@ -138,7 +137,7 @@ public class SpawnManager : MonoBehaviour
             {
                 yield return new WaitForSeconds(waves[_waveNumber - 1].missilePowerUpSpawnTime);
                 Vector3 posToSpawn = new Vector3(Random.Range(-8f, 8f), 7, 0);
-                Instantiate(missilePowerUP, posToSpawn, Quaternion.identity);
+                Instantiate(missilePowerUp, posToSpawn, Quaternion.identity);
                 yield return new WaitForSeconds(waves[_waveNumber - 1].missilePowerUpSpawnTime);
             }
         }

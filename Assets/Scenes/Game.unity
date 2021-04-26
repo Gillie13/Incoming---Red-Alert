@@ -1669,8 +1669,8 @@ MonoBehaviour:
   _enemyContainer: {fileID: 676054225}
   _stopSpawning: 0
   _uiManager: {fileID: 0}
-  lifepowerUp: {fileID: 2207003881571030128, guid: 8ff21cea48e6e4be08264cc77ccc1c1f, type: 3}
-  missilePowerUP: {fileID: 3402424877452896589, guid: f87fa5700f4644a8ab9821d38c29a3e0, type: 3}
+  lifePowerUp: {fileID: 2207003881571030128, guid: 8ff21cea48e6e4be08264cc77ccc1c1f, type: 3}
+  missilePowerUp: {fileID: 3402424877452896589, guid: f87fa5700f4644a8ab9821d38c29a3e0, type: 3}
   waves:
   - enemyCount: 5
     enemySpawnTime: 3
