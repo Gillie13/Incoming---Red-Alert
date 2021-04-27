@@ -10,6 +10,11 @@ public class EnemyFast : MonoBehaviour
     private float _movementSpeed = 5.0f;
     private float _downSpeed = 4.0f;
 
+    //Shield
+    [SerializeField]
+    private GameObject _shieldOnPrefab;
+    private bool _isShieldActive = true;
+
     private Player _player;
     private Animator _anim;
     private AudioSource _audioSource;
@@ -47,6 +52,8 @@ public class EnemyFast : MonoBehaviour
         {
             Debug.LogError("Anim is null");
         }
+
+        transform.GetChild(0).gameObject.SetActive(true);
     }
 
     // Update is called once per frame
@@ -92,7 +99,16 @@ public class EnemyFast : MonoBehaviour
             {
                 _player.AddScore(10);
             }
-            EnemyDestroyed();
+            if (_isShieldActive == true)
+            {
+                _isShieldActive = false;
+                transform.GetChild(0).gameObject.SetActive(false);
+                _audioSource.Play();
+            }
+            else
+            {
+                EnemyDestroyed();
+            }
         }
 
         if (other.tag == "Missile")
@@ -102,8 +118,19 @@ public class EnemyFast : MonoBehaviour
             {
                 _player.AddScore(10);
             }
-            EnemyDestroyed();
+            if (_isShieldActive == true)
+            {
+                _isShieldActive = false;
+                transform.GetChild(0).gameObject.SetActive(false);
+                _audioSource.Play();
+            }
+            else
+            {
+                EnemyDestroyed();
+            }
         }
+
+
     }
 
     private void EnemyDestroyed()
