@@ -1679,7 +1679,7 @@ MonoBehaviour:
     missilePowerUpCount: 0
     missilePowerUpSpawnTime: 0
     enemies:
-    - {fileID: 5414255809234385335, guid: eb8b1eb1e897f4b8794d5b75489ac63b, type: 3}
+    - {fileID: 5469414178305316671, guid: 401a4b5786fdb4bb186f70b16fd15b15, type: 3}
     powerUps:
     - {fileID: 6470329743691082768, guid: e98285c30ef9d4d3882526e3b370d671, type: 3}
     - {fileID: 7326533831476527005, guid: 60b65443e773e4ceab80325de94f869f, type: 3}
