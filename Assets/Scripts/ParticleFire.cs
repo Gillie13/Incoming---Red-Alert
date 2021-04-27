@@ -8,7 +8,7 @@ public class ParticleFire : MonoBehaviour
     private Transform _player;
     private Rigidbody2D _rigidBody;
     [SerializeField]
-    private float _particleFireSpeed = 8f;
+    private float _particleFireSpeed = 7f;
     private Vector2 _moveDirection;
 
     // Start is called before the first frame update
