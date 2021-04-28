@@ -54,3 +54,6 @@ TagManager:
   - name: Foreground
     uniqueID: 3344582837
     locked: 0
+  - name: Laser
+    uniqueID: 1943090519
+    locked: 0

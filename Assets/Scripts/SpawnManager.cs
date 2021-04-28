@@ -19,6 +19,7 @@ public class Wave
 
     public GameObject[] enemies;
     public GameObject[] powerUps;
+    public bool bossWave;
 }
 
 public class SpawnManager : MonoBehaviour
@@ -74,7 +75,7 @@ public class SpawnManager : MonoBehaviour
             yield return new WaitForSeconds(1f);
             for (int i = 0; i < waves[_waveNumber - 1].enemyCount; i++)
             {
-                if (_stopSpawning == false)
+                if (_stopSpawning == false && waves[_waveNumber -1].bossWave == false)
                 {
                     int randomEnemy = Random.Range(0, waves[_waveNumber - 1].enemies.Length);
                     Vector3 posToSpawn = new Vector3(Random.Range(-8f, 8f), 7, 0);
@@ -83,7 +84,7 @@ public class SpawnManager : MonoBehaviour
                     _enemyAlive++;
                     yield return new WaitForSeconds(waves[_waveNumber - 1].enemySpawnTime);
                 }
-                else if (_stopSpawning == false)
+                else if (_stopSpawning == false && waves[_waveNumber -1].bossWave == true)
                 {
                     GameObject newEnemy = Instantiate(waves[_waveNumber - 1].enemies[0]);
                     newEnemy.transform.parent = _enemyContainer.transform;

@@ -52,7 +52,6 @@ public class EnemyDodger : MonoBehaviour
             Debug.LogError("Animinator is NULL");
         }
 
-
     }
 
     // Update is called once per frame

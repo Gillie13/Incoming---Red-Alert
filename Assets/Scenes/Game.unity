@@ -1679,36 +1679,75 @@ MonoBehaviour:
     missilePowerUpCount: 0
     missilePowerUpSpawnTime: 0
     enemies:
-    - {fileID: 5469414178305316671, guid: 401a4b5786fdb4bb186f70b16fd15b15, type: 3}
+    - {fileID: 3633628262982961830, guid: 39b257c3589ec4c76af2b45dfa3557d7, type: 3}
     powerUps:
     - {fileID: 6470329743691082768, guid: e98285c30ef9d4d3882526e3b370d671, type: 3}
     - {fileID: 7326533831476527005, guid: 60b65443e773e4ceab80325de94f869f, type: 3}
+    bossWave: 0
   - enemyCount: 10
-    enemySpawnTime: 2
-    lifePowerUpCount: 1
-    lifePowerUpSpawnTime: 10
+    enemySpawnTime: 3
+    lifePowerUpCount: 0
+    lifePowerUpSpawnTime: 0
     missilePowerUpCount: 1
     missilePowerUpSpawnTime: 10
     enemies:
     - {fileID: 3633628262982961830, guid: 39b257c3589ec4c76af2b45dfa3557d7, type: 3}
+    - {fileID: 5414255809234385335, guid: eb8b1eb1e897f4b8794d5b75489ac63b, type: 3}
     powerUps:
     - {fileID: 6470329743691082768, guid: e98285c30ef9d4d3882526e3b370d671, type: 3}
-    - {fileID: 950551321030788116, guid: 215719c6a133640d8980478541ee511a, type: 3}
     - {fileID: 2134770854823086608, guid: 25a34163d29794542990169dba66471e, type: 3}
+    - {fileID: 950551321030788116, guid: 215719c6a133640d8980478541ee511a, type: 3}
+    bossWave: 0
   - enemyCount: 15
-    enemySpawnTime: 1
+    enemySpawnTime: 2
     lifePowerUpCount: 1
     lifePowerUpSpawnTime: 10
     missilePowerUpCount: 2
+    missilePowerUpSpawnTime: 5
+    enemies:
+    - {fileID: 3633628262982961830, guid: 39b257c3589ec4c76af2b45dfa3557d7, type: 3}
+    - {fileID: 5469414178305316671, guid: 401a4b5786fdb4bb186f70b16fd15b15, type: 3}
+    - {fileID: 6390344245291397561, guid: a2bb620efeac24a9ba02c317ee9f3e5a, type: 3}
+    powerUps:
+    - {fileID: 6470329743691082768, guid: e98285c30ef9d4d3882526e3b370d671, type: 3}
+    - {fileID: 7326533831476527005, guid: 60b65443e773e4ceab80325de94f869f, type: 3}
+    - {fileID: 950551321030788116, guid: 215719c6a133640d8980478541ee511a, type: 3}
+    - {fileID: 2134770854823086608, guid: 25a34163d29794542990169dba66471e, type: 3}
+    - {fileID: 5331607894824292367, guid: 0ce0ff23e827840cfbc84630b9e8a2ab, type: 3}
+    bossWave: 0
+  - enemyCount: 20
+    enemySpawnTime: 2
+    lifePowerUpCount: 2
+    lifePowerUpSpawnTime: 10
+    missilePowerUpCount: 3
     missilePowerUpSpawnTime: 10
     enemies:
     - {fileID: 3633628262982961830, guid: 39b257c3589ec4c76af2b45dfa3557d7, type: 3}
+    - {fileID: 6390344245291397561, guid: a2bb620efeac24a9ba02c317ee9f3e5a, type: 3}
+    - {fileID: 5469414178305316671, guid: 401a4b5786fdb4bb186f70b16fd15b15, type: 3}
+    - {fileID: 5414255809234385335, guid: eb8b1eb1e897f4b8794d5b75489ac63b, type: 3}
     powerUps:
     - {fileID: 6470329743691082768, guid: e98285c30ef9d4d3882526e3b370d671, type: 3}
     - {fileID: 5331607894824292367, guid: 0ce0ff23e827840cfbc84630b9e8a2ab, type: 3}
     - {fileID: 950551321030788116, guid: 215719c6a133640d8980478541ee511a, type: 3}
     - {fileID: 2134770854823086608, guid: 25a34163d29794542990169dba66471e, type: 3}
+    - {fileID: 950551321030788116, guid: 215719c6a133640d8980478541ee511a, type: 3}
+    bossWave: 0
+  - enemyCount: 1
+    enemySpawnTime: 3
+    lifePowerUpCount: 1
+    lifePowerUpSpawnTime: 20
+    missilePowerUpCount: 2
+    missilePowerUpSpawnTime: 10
+    enemies:
+    - {fileID: 1648975869995797926, guid: fd7f4c7195c3e41a08452276ba1a225f, type: 3}
+    powerUps:
+    - {fileID: 6470329743691082768, guid: e98285c30ef9d4d3882526e3b370d671, type: 3}
     - {fileID: 7326533831476527005, guid: 60b65443e773e4ceab80325de94f869f, type: 3}
+    - {fileID: 5331607894824292367, guid: 0ce0ff23e827840cfbc84630b9e8a2ab, type: 3}
+    - {fileID: 950551321030788116, guid: 215719c6a133640d8980478541ee511a, type: 3}
+    - {fileID: 2134770854823086608, guid: 25a34163d29794542990169dba66471e, type: 3}
+    bossWave: 1
 --- !u!4 &1071430604
 Transform:
   m_ObjectHideFlags: 0
